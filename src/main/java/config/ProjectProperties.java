@@ -20,8 +20,6 @@ import static io.github.bonigarcia.wdm.config.DriverManagerType.CHROME;
 @Slf4j
 @NoArgsConstructor
 public enum ProjectProperties {
-    APP_USER_PASSWORD,
-    APP_USER_NAME,
     PRODUCT_SITE_URL,
     PRODUCT_API_URL,
     DRIVER_MANAGER(DriverManager.class.getName()),
