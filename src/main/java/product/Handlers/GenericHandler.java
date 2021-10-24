@@ -59,7 +59,7 @@ public class GenericHandler extends PageObject {
                 , windowToGet
                 , clazz.getSimpleName()
         );
-        log.info("'{}' reflected to '{}' class", windowToGet, resultingWindow.getClass());
+        log.debug("'{}' reflected to '{}' class", windowToGet, resultingWindow.getClass());
         return (T) resultingWindow;
     }
 
@@ -85,7 +85,7 @@ public class GenericHandler extends PageObject {
             resultingElement = (T) ReflectEx.getElementByNameOrNull(page.getBasePageElements(), fieldName, args);
         }
         String argsValues = "(" + StringParser.delete(Arrays.toString(args), "[", "]") + ")";
-        log.info("'{}' reflected to '{}{}' method which returned '{}' element for '{}' window",
+        log.debug("'{}' reflected to '{}{}' method which returned '{}' element for '{}' window",
                 fieldNameInitial, fieldName, argsValues, resultingElement, page.getClass());
         return resultingElement;
     }

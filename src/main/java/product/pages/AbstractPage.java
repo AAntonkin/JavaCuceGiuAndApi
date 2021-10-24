@@ -67,9 +67,9 @@ public abstract class AbstractPage extends PageObject {
     }
 
     public void openPage(String url) {
-        log.info(url);
+        log.info("Page url: {}", url);
         WebDriver thisDriver = this.getDriver();
-        this.setDefaultBaseUrl(PRODUCT_SITE_URL.get() + this.getPageUrl());
+        this.setDefaultBaseUrl(PRODUCT_SITE_URL.get() + url);
         this.open();
         this.isReadyForUse(10000);
         thisDriver.get(url);
@@ -106,7 +106,7 @@ public abstract class AbstractPage extends PageObject {
                 }
                 break;
             } catch (StaleElementReferenceException e) {
-                log.info("'StaleElementReferenceException' page refreshed: {}", e.getMessage());
+                log.debug("'StaleElementReferenceException' page refreshed: {}", e.getMessage());
             }
         return isOpened;
     }
@@ -130,14 +130,14 @@ public abstract class AbstractPage extends PageObject {
                             .withTimeout(Duration.ofMillis(timeOutMilliseconds)).until(isTrue));
                     positiveTries -= res.isPresent() && Boolean.parseBoolean(res.get().toString()) ? 1 : 0;
                 } catch (StaleElementReferenceException | ElementShouldBeVisibleException e) {
-                    log.info("{} Got StaleElementReferenceException. Repeat waiting.", methodName);
+                    log.debug("{} Got StaleElementReferenceException. Repeat waiting.", methodName);
                 }
         } catch (WebDriverException | AutomationException e) {
-            log.info("{} waited for {} second(s) with {} milliseconds interval, finished with value => {} ", methodName, timeOutMilliseconds / 1000, pollingIntervalMilliseconds, res);
+            log.debug("{} waited for {} second(s) with {} milliseconds interval, finished with value => {} ", methodName, timeOutMilliseconds / 1000, pollingIntervalMilliseconds, res);
         } catch (NullPointerException e) {
-            log.info(NullPointerException.class.getSimpleName() + " => this={} ", this);
+            log.debug(NullPointerException.class.getSimpleName() + " => this={} ", this);
         }
-        log.info("{} waiting finished with value => {} in {} milliseconds [{} -> {}]",
+        log.debug("{} waiting finished with value => {} in {} milliseconds [{} -> {}]",
                 methodName, res.orElse(null), System.currentTimeMillis() - startTime, started, new DateTime().toString(timeFormat));
         return (T) this;
     }
@@ -164,13 +164,13 @@ public abstract class AbstractPage extends PageObject {
         String message = "";
         log.info("clickOn ({}, {}, {})", wex.getXpathExpression(), tries, waitInterval);
         while (--tries > 0) {
-            log.info("clickOn tries left: {}", tries);
+            log.debug("clickOn tries left: {}", tries);
             try {
                 this.clickOn(wex);
                 break;
             } catch (Exception e) {
                 message = e.getMessage();
-                log.info("Click failed! {}", message);
+                log.debug("Click failed! {}", message);
                 if (tries <= 0) throw new AutomationException("Click failed! \n\t%s", message);
             }
             Framework.waitABit(waitInterval);

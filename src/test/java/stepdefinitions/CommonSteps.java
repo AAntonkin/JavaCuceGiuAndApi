@@ -62,13 +62,11 @@ public class CommonSteps extends GeneralSteps {
                 .as("'%s' element was not found on '%s' page", elementName, page)
                 .isNotNull();
         int tries = 4;
-        log.info("Star clicking!!!!!");
         while (tries-- > 0 && page.pageIsOpened()) {
             log.info("Clicking on '{}' button on '{}' page [Tries left: {}]", elementName, pageName, tries);
             page.clickOn(webElement, 2, 2000);
             page.waitFor(IS_NOT_VISIBLE, 2000, 5);
         }
-        log.info("Stoped clicking!!!!!");
         assertThat(page.pageIsOpened())
                 .as("Click on '%s' didn't close '%s' page", elementName, pageName)
                 .isFalse();

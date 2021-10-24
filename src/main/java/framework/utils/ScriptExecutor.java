@@ -21,7 +21,7 @@ public class ScriptExecutor implements JavascriptExecutor {
     public Object executeScript(String s, Object... objects) {
         boolean hasArgs = objects.length > 0;
         if (!hasArgs || (hasArgs && !objects[0].toString().contains(EXECUTE_WITHOUT_LOGGING)))
-            log.info("'{}' {}\tArgs: {}", s, (objects.length > 1 ? "\n" : ""), objects);
+            log.debug("'{}' {}\tArgs: {}", s, (objects.length > 1 ? "\n" : ""), objects);
         return this.executor.executeScript(s, objects);
     }
 
